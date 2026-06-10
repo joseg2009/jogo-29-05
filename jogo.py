@@ -25,7 +25,6 @@ personagem = {
 }
 
 bestiario = {
-    "bot1": {
         "nome": "vítima 1",
         "hp_max": 75,
         "hp_atual": 75,
@@ -34,7 +33,7 @@ bestiario = {
             2: {"ataque":"Ecos da Escuridão", "dano" : 17},
             3: {"ataque":"Cansaço", "dano" : 0}
         },
-    }
+        "fraqueza": "contudente"
 }
 
 
@@ -55,7 +54,7 @@ while True:
 
     if personagem["hp_atual"] <= 0:
         break
-    if bestiario["bot1"]["hp_atual"] <= 0:
+    if bestiario["hp_atual"] <= 0:
         break
     match acao:
 
@@ -65,26 +64,37 @@ while True:
             escolha = input("Escolha sua habilidade: ").strip().lower()
             
             match escolha:
-
+                    # pistola
                 case "pistola" : 
                     pistola = personagem["habilidades"]["pistola"]
                     print(pistola)
-                
+                    if bestiario["fraqueza"] == "perfurante":
+                        bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"] * 2
+                        print(bestiario["hp_atual"])
+                    else :
+                        bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"]
+                    # cassetete
                 case "cassetete" :
                     cassetete = personagem["habilidades"]["cassetete"]
                     print(cassetete)
+                    if bestiario["fraqueza"] == "contudente":
+                        bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] * 2
+                        print(bestiario["hp_atual"])
+                    else :
+                        bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] 
+
         case "d": 
             r = random.randint(1,3)
-            personagem["hp_atual"] -= bestiario["bot1"]["habilidades"][r]["dano"] * 0.5
+            personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] * 0.5
 
-            print(bestiario["bot1"]["habilidades"][r]["ataque"], bestiario["bot1"]["habilidades"][r]["dano"])
+            print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
             exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
 
         case "f":
             r = random.randint(1,3)
-            personagem["hp_atual"] -= bestiario["bot1"]["habilidades"][r]["dano"] 
+            personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] 
 
-            print(bestiario["bot1"]["habilidades"][r]["ataque"], bestiario["bot1"]["habilidades"][r]["dano"])
+            print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
             exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
             print("voce faliu ao fugir")
 
