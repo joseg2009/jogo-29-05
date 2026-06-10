@@ -23,9 +23,11 @@ personagem = {
         },
     },
 }
+nome = personagem["nome"]
 
 bestiario = {
-        "nome": "vítima 1",
+    1: {
+        "nome": "mulher",
         "hp_max": 75,
         "hp_atual": 75,
         "habilidades": {
@@ -34,69 +36,100 @@ bestiario = {
             3: {"ataque":"Cansaço", "dano" : 0}
         },
         "fraqueza": "contudente"
+    },
+    2: {
+        "nome": "amante",
+        "hp_max": 55,
+        "hp_atual": 55,
+        "habilidades": {
+            1: {"ataque":"gancho", "dano" : 20},
+            2: {"ataque":"dilaçerar", "dano" : 25},
+            3: {"ataque":"ancioso",}
+        },
+        "fraqueza": "perfurante"
+    },
+    3:{
+        "nome": "marido",
+        "hp_max": 150,
+        "hp_atual": 150,
+        "habilidades": {
+            1: {"ataque":"cuspe de veneno", "dano" : 22},
+            2: {"ataque":"aranhão venenoso", "dano" : 30},
+        },
+    }
 }
 
+def combate (bestiario):
+    while True: 
+        print("Comandos: [a] ATACAR | [d] DEFENDER | [f] SAIR \n")
+        comando = input("⬆️ Digite um dos comandos acima ⬆️").strip() .lower()
+        if comando in ["a", "atacar", "ATACAR", "ataca"]:
+            acao = "a"
+        elif comando in ["d", "defender", "defende","defesa" ]:
+            acao = "d"
+        elif comando in ["f", "fuga","fugir"]:
+            acao = "f"
+        else:
+            comando = "invalido"
 
-nome = personagem["nome"]
+        if personagem["hp_atual"] <= 0:
+            break
+        if bestiario["hp_atual"] <= 0:
+            break
+        match acao:
 
-
-while True: 
-    print("Comandos: [a] ATACAR | [d] DEFENDER | [f] SAIR \n")
-    comando = input("⬆️ Digite um dos comandos acima ⬆️").strip() .lower()
-    if comando in ["a", "atacar", "ATACAR", "ataca"]:
-        acao = "a"
-    elif comando in ["d", "defender", "defende","defesa" ]:
-        acao = "d"
-    elif comando in ["f", "fuga","fugir"]:
-        acao = "f"
-    else:
-        comando = "invalido"
-
-    if personagem["hp_atual"] <= 0:
-        break
-    if bestiario["hp_atual"] <= 0:
-        break
-    match acao:
-
-        case "a":
-            
-            print(f"Opção: pistola para um disparo rapido | cassetete para ataques rapidos consecutivos")
-            escolha = input("Escolha sua habilidade: ").strip().lower()
-            
-            match escolha:
-                    # pistola
-                case "pistola" : 
-                    pistola = personagem["habilidades"]["pistola"]
-                    print(pistola)
-                    if bestiario["fraqueza"] == "perfurante":
-                        bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"] * 2
+            case "a":
+                
+                print(f"Opção: pistola para um disparo rapido | cassetete para ataques rapidos consecutivos")
+                escolha = input("Escolha sua habilidade: ").strip().lower()
+                
+                match escolha:
+                        # pistola
+                    case "pistola" : 
+                        pistola = personagem["habilidades"]["pistola"]
+                        print(pistola)
+                        if bestiario["fraqueza"] == "perfurante":
+                            bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"] * 2
+                        else :
+                            bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"]
                         print(bestiario["hp_atual"])
-                    else :
-                        bestiario["hp_atual"] -= personagem["habilidades"]["pistola"]["dano"]
-                    # cassetete
-                case "cassetete" :
-                    cassetete = personagem["habilidades"]["cassetete"]
-                    print(cassetete)
-                    if bestiario["fraqueza"] == "contudente":
-                        bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] * 2
-                        print(bestiario["hp_atual"])
-                    else :
-                        bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] 
+                            
+                        # cassetete
+                    case "cassetete" :
+                        cassetete = personagem["habilidades"]["cassetete"]
+                        print(cassetete)
+                        if bestiario["fraqueza"] == "contudente":
+                            bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] * 2
+                            print(bestiario["hp_atual"])
+                        else :
+                            bestiario["hp_atual"] -= personagem["habilidades"]["cassetete"]["dano"] 
 
-        case "d": 
-            r = random.randint(1,3)
-            personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] * 0.5
+            case "d": 
+                r = random.randint(1,3)
+                personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] * 0.5
 
-            print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
-            exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
+                print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
+                exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
 
-        case "f":
-            r = random.randint(1,3)
-            personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] 
+            case "f":
+                r = random.randint(1,3)
+                personagem["hp_atual"] -= bestiario["habilidades"][r]["dano"] 
 
-            print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
-            exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
-            print("voce faliu ao fugir")
+                print(bestiario["habilidades"][r]["ataque"], bestiario["habilidades"][r]["dano"])
+                exibir_barra_hp(nome,personagem["hp_atual"],personagem["hp_max"])
+                print("voce faliu ao fugir")
+
+        if bestiario["nome"] == "marido" :
+            if bestiario["hp_atual"] <= bestiario["hp_max"] * 0.5
+                if            
+
+
+r = random.randint(1,2)
+combate (bestiario [r])
+
+
+
+    
 
 
 
